@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bhukkad</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Favicons
+        ================================================== -->
+    <!-- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"> -->
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css"  href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css">
+
+    <!-- Stylesheet
+        ================================================== -->
+    <link rel="stylesheet" type="text/css"  href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nivo-lightbox.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"> </script>
+
+
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  {% load Food_Catagory %}
+<!-- Navigation
+    ==========================================-->
+<nav id="menu" class="navbar navbar-default navbar-fixed-top">
+  <div class="container"> 
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand page-scroll" href="/">Bhukkad</a> </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about" class="page-scroll">About</a></li>
+        <li><a href="#restaurant-menu" class="page-scroll">Menu</a></li>
+        <li><a href="#portfolio" class="page-scroll">Gallery</a></li>
+        <li><a href="#team" class="page-scroll">Chefs</a></li>
+        <li><a href="#call-reservation" class="page-scroll">Contact</a></li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse --> 
+  </div>
+</nav>
+
+
+<div id="snackbar"></div>
+<!-- Side Nav Start -->
+<div class="Auth_sideNav">
+  <ul>
+    {% if user.is_authenticated %}
+      <li>
+        <a href="{% url 'Logout'%}" onclick="showModal('LoginModal')" title="User Account"  rel="noreferrer">
+          <i class="fas fa-sign-out"></i>          
+        </a>
+      </li>
+    {% else %}
+      <li>
+          <a href="#" onclick="showModal('LoginModal')" title="User Account"  rel="noreferrer">
+            <i class="far fa-user-plus"></i>          
+          </a>
+      </li>
+      <div id="LoginModal" class="modal">
+        <button onclick="hideModal('LoginModal')" class="close Auth_close" title="Close Modal">✕</button>
+        <div class="modal-content">
+          <div id="LoginForm" class="login-form">
+            <h3 >Log In</h3>
+            <span class="error" id="LogInError"></span>
+            <form action="{% url 'Login' %}" id='login' class="contacts" method="post">
+              {% csrf_token %}
+              <div class="row">
+                  <div class="col-md-12">
+                    <fieldset>
+                      <input name="email" type="email" class="form-control" id="name" placeholder="Enter Email..." required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12">
+                    <fieldset>
+                      <input name="password" type="password" class="form-control" id="email" placeholder="Enter Password..." required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="btn">Log In</button>
+                    </fieldset>
+                  </div>
+                  <div class="forExistingUser">
+                    <a href="#" onclick="hideModal('LoginModal');showModal('SignUpModal')" >
+                      <span>New to Bhukkad? Create an account</span>
+                    </a>
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>                              
+      </div>
+      <div id="SignUpModal" class="modal">
+        <button onclick="hideModal('SignUpModal')" class="close Auth_close" title="Close Modal">✕</button>
+        <div class="modal-content">
+          <div id="LoginForm" class="login-form">
+            <h3 >Register</h3>
+            <span class="error" id="RegError"></span>
+
+            <form action="{% url 'Register' %}" id='register' class="contacts" method="post">
+              {% csrf_token %}
+              <div class="row">
+
+                  <div class="col-md-12">
+                    <fieldset>
+                      <input name="email" type="email" class="form-control" id="name" placeholder="Enter Email..." required>
+                    </fieldset>
+                    
+                  </div>
+                  <div class="col-md-12">
+                    <fieldset>
+                      <input name="password1" type="password" class="form-control" id="email" placeholder="Enter Password..." required>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12">
+                    <fieldset>
+                      <input name="password2" type="password" class="form-control" id="email" placeholder="Conform Password..." required>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="btn">Register</button>
+                    </fieldset>
+                  </div>
+                  <div class="forExistingUser">
+                    <a href="#" onclick="hideModal('SignUpModal');showModal('LoginModal')" >
+                      <span>Existing User? Log in</span>
+                    </a>
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>                              
+      </div>
+    {% endif %}
+      <li>
+        <a href="#" onclick="OpenCartModal('CartModal')" title="Cart" rel="noreferrer">
+          <i class="far fa-shopping-cart" style="position: relative;" ></i>
+          <span class="add_cart_item" id="add_cart_item" >
+            {% if user.is_authenticated %}
+              {{user.cart_set.count}}
+            {% else %}
+              0
+            {% endif %}
+          </span>
+        </a>
+      </li>
+
+      <div id="CartModal" class="modal">
+        <button onclick="hideModal('CartModal')" class="close Cart_close" title="Close Modal">✕</button>
+        <div class="cart_modal_content" id="my_cart_item">
+          
+        </div>                              
+      </div>
+      {% if user.is_authenticated %}
+      <li>
+        <a href="#" onclick="OpenOrderModal('OrderModal')" title="Track Order" rel="noreferrer">
+          <i class="fas fa-shipping-timed"></i>
+        </a>
+      </li>
+      <div id="OrderModal" class="modal">
+        <button onclick="hideModal('OrderModal')" class="close Auth_close" title="Close Modal">✕</button>
+        <div class="modal-content" id="order_modal">
+          <div id='inner_order_track' style="padding: 20px; height: 420px; width: 100%;">
+
+          </div>
+          
+        </div>                              
+      </div>
+      {% endif %}
+  </ul>
+</div>
+<script>
+  var user_id = '{{request.user.id}}'
+  let socket = new WebSocket('ws://127.0.0.1:8000' + '/ws/order/' + user_id + '/'); 
+                    
+    socket.onopen = function (e) {
+      console.log('Connection established');
+    };
+                      
+    socket.onmessage = function (e) {
+      var data = JSON.parse(e.data)
+      list_data = data.payload
+      var innerhtml = ''
+      list_data.map((datas) => {
+        let progress = 10
+        let bg_progress = 'red'
+        if(datas.status == 'Order Recieved'){ progress = 20; bg_progress = 'red'}
+        else if(datas.status == 'Baking'){ progress = 40; bg_progress = 'orange'}
+        else if(datas.status == 'Baked'){ progress = 60; bg_progress = 'light_orange' }
+        else if(datas.status == 'Out for delivery'){ progress = 80; bg_progress = 'blue' }
+        else if(datas.status == 'Delivered'){ progress = 100 ; bg_progress = 'green'}
+
+        innerhtml += `<div class="order_div">
+                  <div style="text-align: left;">
+                      <h5 >Order id - ${datas.order_id}</h5>
+                      
+                  </div>
+                  <div class="progress mt-4" style="height: 7px">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated + ${bg_progress}" id='${datas.order_id}' role="progressbar" aria-valuenow="50"
+                      aria-valuemin="0" aria-valuemax="100" style="width: ${progress}%"></div>
+                  </div>
+                  <div class='status'>
+                    <span class="badge" >${datas.status}</span>
+                    <p >Amount - ₹ ${datas.amount} </p>
+                  </div>
+               </div>`
+      })
+      document.getElementById('inner_order_track').innerHTML = innerhtml        
+    };
+    socket.onclose = function (e) {
+      console.log('Connection closed');
+    };
+</script>
+<!-- Side Nav End -->
+
+<!-- Header -->
+<header id="header">
+  <div class="intro">
+    <div class="overlay">
+      <div class="container">
+        <div class="row">
+          <div class="intro-text">
+            <h1>Bhukkad</h1>
+            <p>Restaurant / Coffee / Pub</p>
+            <a href="#about" class="btn btn-custom btn-lg page-scroll">Discover Story</a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- About Section -->
+<div id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-6 ">
+        <div class="about-img"><img src="{% static 'img/about.jpg' %}" class="img-responsive" alt=""></div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="about-text">
+          <h2>Our Restaurant</h2>
+          <hr>
+          <p>Founded in 2005 in Toronto, Canada as the first and only purveyor of Healthy Indian Takeout, Veda is celebrating 16 years in business this year. 
+            We have been copied many times, but our service and quality have stood the test of time. </p>
+          <h3>Awarded Chefs</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam. Sed commodo nibh ante facilisis bibendum dolor feugiat at. Duis sed dapibus leo nec ornare.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Restaurant Menu Section -->
+<div id="restaurant-menu">
+  <div class="section-title text-center center">
+    <div class="overlay">
+      <h2>Menu</h2>
+      <hr>
+      <p>You Can get Special Food at Special Price.....dont't miss it !</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="menu-section">
+          <h2 class="menu-section-title">Breakfast & Starters</h2>
+          <hr>
+          {% Breakfast_items as items %}
+          {% for item in items %}
+            <div class="menu-item">
+              <div class="menu-item-name"> {{ item.name }} </div>
+              <div class="menu-item-price"> {{item.price}} </div>
+              <div class="menu-item-description">
+                <div class="description">
+                  <span>{{item.description}} </span>
+                </div>
+                <div class="order_button">
+                  <button type="button" class="btn " onclick="Add_To_Cart(`{{item.id}}`)">Add To Cart</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="menu-section">
+          <h2 class="menu-section-title">Main Course</h2>
+          <hr>
+          {% Special_items as items %}
+          {% for item in items %}
+            <div class="menu-item">
+              <div class="menu-item-name"> {{ item.name }} </div>
+              <div class="menu-item-price"> {{item.price}} </div>
+              <div class="menu-item-description">
+                <div class="description">
+                  <span>{{item.description}} </span>
+                </div>
+                <div class="order_button">
+                  <button type="button" class="btn" onclick="Add_To_Cart(`{{item.id}}`)">Add To Cart</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="menu-section">
+          <h2 class="menu-section-title">Dinner</h2>
+          <hr>
+          {% Dinner_items as items %}
+          {% for item in items %}
+            <div class="menu-item">
+              <div class="menu-item-name"> {{ item.name }} </div>
+              <div class="menu-item-price"> {{item.price}} </div>
+              <div class="menu-item-description">
+                <div class="description">
+                  <span>{{item.description}} </span>
+                </div>
+                <div class="order_button">
+                  <button type="button" class="btn" onclick="Add_To_Cart(`{{item.id}}`)" >Add To Cart</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="menu-section">
+          <h2 class="menu-section-title">Coffee & Drinks</h2>
+          <hr>
+          {% Lunch_items as items %}
+            {% for item in items %}
+              <div class="menu-item">
+                <div class="menu-item-name"> {{ item.name }} </div>
+                <div class="menu-item-price"> {{item.price}} </div>
+                <div class="menu-item-description">
+                  <div class="description">
+                    <span>{{item.description}} </span>
+                  </div>
+                  <div class="order_button">
+                    <button type="button" class="btn" onclick="Add_To_Cart(`{{item.id}}`)" >Add To Cart</button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Portfolio Section -->
+<div id="portfolio">
+  <div class="section-title text-center center">
+    <div class="overlay">
+      <h2>Gallery</h2>
+      <hr>
+      <p>Come Here...and enjoy food...!</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="categories">
+        <ul class="cat">
+          <li>
+            <ol class="type">
+              <li><a href="#" data-filter="*" class="active">All</a></li>
+              <li><a href="#" data-filter=".Breakfast">Breakfast</a></li>
+              <li><a href="#" data-filter=".Lunch">Lunch</a></li>
+              <li><a href="#" data-filter=".Dinner">Dinner</a></li>
+            </ol>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="portfolio-items">
+        {% All_items as items %}
+        {% for item in items%}
+          <div class="col-sm-6 col-md-4 col-lg-4 {{item.catagory}}">
+            <div class="portfolio-item">
+              <div class="hover-bg"> <a href="{{ item.full_pic.url }}" title="Dish Name" data-lightbox-gallery="gallery1">
+                <div class="hover-text">
+                  <h4> {{item.name}}</h4>
+                </div>
+                <img src="{{ item.pic.url }}" class="img-responsive" alt="Project Title"> </a> </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Team Section -->
+<div id="team" class="text-center">
+  <div class="overlay">
+    <div class="container">
+      <div class="col-md-10 col-md-offset-1 section-title">
+        <h2>Meet Our Chefs</h2>
+        <hr>
+        <p>You can test Best food which is made by greatest Chefs</p>
+      </div>
+      <div id="row">
+        <div class="col-md-4 team">
+          <div class="thumbnail">
+            <div class="team-img"><img src="{% static 'img/chef/chef2.jpg' %}" alt="..."></div>
+            <div class="caption">
+              <h3>Mike Doe</h3>
+              <p>He is Very talented cooker, and he is one of 10 ranked Chief,You cant't compare this guy....!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 team">
+          <div class="thumbnail">
+            <div class="team-img"><img src="{% static 'img/chef/chef1.jpg' %}" alt="..."></div>
+            <div class="caption">
+              <h3>Chris Doe</h3>
+              <p>He has 8 years experience in cook and also he has lots of archivement in state level for cook</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 team">
+          <div class="thumbnail">
+            <div class="team-img"><img src="{% static 'img/chef/chef3.jpg' %}" alt="..."></div>
+            <div class="caption">
+              <h3>Ethan Doe</h3>
+              <p>She has 5 years experience in cook, she is a best cooker in odisha</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Call Reservation Section -->
+<div id="call-reservation" class="text-center">
+  <div class="container">
+    <h2>Want to make a reservation? Call <strong>+919090157149</strong></h2>
+  </div>
+</div>
+<!-- Contact Section -->
+<div id="contact" class="text-center">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>Contact Form</h2>
+      <hr>
+      <p>Book Your Dinner With best Price.</p>
+    </div>
+    <div class="col-md-10 col-md-offset-1">
+      <form name="sentMessage" id="contactForm" novalidate>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" id="name" class="form-control" placeholder="Name" required="required">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="email" id="email" class="form-control" placeholder="Email" required="required">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea name="message" id="message" class="form-control" rows="4" placeholder="Message" required></textarea>
+          <p class="help-block text-danger"></p>
+        </div>
+        <div id="success"></div>
+        <button type="submit" class="btn btn-custom btn-lg">Send Message</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div class="container text-center">
+    <div class="col-md-4">
+      <h3>Address</h3>
+      <div class="contact-item">
+        <p>Nuagaon,oldTown</p>
+        <p>Bhubaneswar, Odisha</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Opening Hours</h3>
+      <div class="contact-item">
+        <p>Mon-Thurs: 10:00 AM - 11:00 PM</p>
+        <p>Fri-Sun: 11:00 AM - 02:00 AM</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Contact Info</h3>
+      <div class="contact-item">
+        <p>Phone: +919090157149</p>
+        <p>Email: info@company.com</p>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid text-center copyrights">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="social">
+        <ul>
+          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+          <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+        </ul>
+      </div>
+      <p>&copy; 2016 Touché. All rights reserved. Designed by <a href="http://www.templatewire.com" rel="nofollow">Subas Kumar Mallick</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="{% static 'js/jquery.1.11.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/SmoothScroll.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/nivo-lightbox.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/jquery.isotope.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/jqBootstrapValidation.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/contact_me.js' %}"></script> 
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

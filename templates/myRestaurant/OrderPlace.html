@@ -1,0 +1,30 @@
+<div class="order_container">
+    <h4>Total Price : ₹ {{total_price}}</h4> 
+    <form id="conform_order" onsubmit="event.preventDefault(); submit_details();"  method="post">
+        {% csrf_token %}
+        <fieldset>
+            <input name="name" type="text" placeholder="Your name"  required autofocus>
+        </fieldset>
+        <fieldset>
+            <input name="phone" type="tel" placeholder="Your Phone Number"  required>
+        </fieldset>
+        <fieldset>
+            <input name="address" type="text" placeholder="Address" required>
+        </fieldset>
+        <h5 style="color: black; text-transform: uppercase; font-size: 15px; text-align: left;">
+            <i class="fal fa-arrow-circle-right" style="margin-right: 10px; font-size: 18px;"></i>
+            Payment options
+        </h5>
+        <div style="display: flex;">
+            <div style="width: 40%; height: 100%; ">
+                <input type="radio" id="COD" value="Cash on Delivery" name="payment" >
+                <label for="COD">Cash on Delivery</label>
+            </div>
+        </div>
+        <fieldset>
+            <button type="submit" id="smt_ntn" class='btn' >Submit</button>
+        </fieldset>
+    </form>
+  </div>
+  
+    
