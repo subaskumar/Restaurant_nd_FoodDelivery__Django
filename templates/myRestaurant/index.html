@@ -71,8 +71,8 @@
           </a>
       </li>
       <div id="LoginModal" class="modal">
-        <button onclick="hideModal('LoginModal')" class="close Auth_close" title="Close Modal">✕</button>
         <div class="modal-content">
+          <button onclick="hideModal('LoginModal')" class="close Auth_close" title="Close Modal">✕</button>
           <div id="LoginForm" class="login-form">
             <h3 >Log In</h3>
             <span class="error" id="LogInError"></span>
@@ -105,8 +105,8 @@
         </div>                              
       </div>
       <div id="SignUpModal" class="modal">
-        <button onclick="hideModal('SignUpModal')" class="close Auth_close" title="Close Modal">✕</button>
         <div class="modal-content">
+          <button onclick="hideModal('SignUpModal')" class="close Auth_close" title="Close Modal">✕</button>
           <div id="LoginForm" class="login-form">
             <h3 >Register</h3>
             <span class="error" id="RegError"></span>
@@ -161,9 +161,12 @@
       </li>
 
       <div id="CartModal" class="modal">
-        <button onclick="hideModal('CartModal')" class="close Cart_close" title="Close Modal">✕</button>
-        <div class="cart_modal_content" id="my_cart_item">
+        <div class="modal-content">
+        <button onclick="hideModal('CartModal')" class="close Auth_close" title="Close Modal">✕</button>
+          <div class="cart_modal_content" id="my_cart_item">
+
           
+          </div>
         </div>                              
       </div>
       {% if user.is_authenticated %}
@@ -173,9 +176,9 @@
         </a>
       </li>
       <div id="OrderModal" class="modal">
-        <button onclick="hideModal('OrderModal')" class="close Auth_close" title="Close Modal">✕</button>
-        <div class="modal-content" id="order_modal">
-          <div id='inner_order_track' style="padding: 20px; height: 420px; width: 100%;">
+        <div class="modal-content" >
+          <button onclick="hideModal('OrderModal')" class="close Auth_close" title="Close Modal">✕</button>
+          <div id='inner_order_track'>
 
           </div>
           

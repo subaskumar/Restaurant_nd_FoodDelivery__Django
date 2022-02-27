@@ -10,27 +10,29 @@
         <div class='cart_items_name'>
           {{cItem.item.name}}
         </div>
-        <div class='cart_items_price'>
-          ₹ {{cItem.item.price}}
-        </div>
         <div class='cart_items_quantity'>
           <div class="" style="position: relative;">
-            <div class="quantity_class" onclick="update_quantity(`{{cItem.id}}`,'minus')"
-                style="cursor: pointer; line-height: 25px; text-align: center; height: 25px; width: 25px; border: 1px solid #878787; border-radius: 50%; display: inline-block;">
+            <div class="quantity_class plus" onclick="update_quantity(`{{cItem.id}}`,'minus')">
               <i class="fal fa-minus"></i>
             </div>
             
-              <input id="quantity_input{{cItem.id}}" 
-                  style="margin: 0px 3px; width: 45px; height: 25px; outline: none;text-align: center;" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" value="{{cItem.quantity}}">
+              <input id="quantity_input{{cItem.id}}" class="qnty_input"
+                type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" value="{{cItem.quantity}}">
             
-            <div class="quantity_class"  onclick="update_quantity(`{{cItem.id}}`,'plus')"
-                style="cursor: pointer; line-height: 25px; text-align: center; height: 25px; width: 25px; border: 1px solid #878787; border-radius: 50%; display: inline-block;">
+            <div class="quantity_class minus"  onclick="update_quantity(`{{cItem.id}}`,'plus')">
               <i class="fal fa-plus"></i>
             </div>
           </div>
         </div>
         <div class="item_remove">
-          <a href="#" onclick="remove_item(`{{cItem.id}}`)"><span style="font-weight: 500; float: right; margin-right: 0px; font-size: 14px; cursor: pointer;">REMOVE</span></a>
+          <div class="cart_items_price">₹ {{cItem.item.price}}</div>
+          <div class="remove">
+            <a href="#" onclick="remove_item(`{{cItem.id}}`)">
+              <span style="font-weight: 500; cursor: pointer;">
+                REMOVE
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     {% endfor %}
@@ -40,7 +42,7 @@
       Total Price : ₹ <span id="total_price"> {{total_price}} </span>
     </div>
     <div>
-      <button class="btn" onclick="placeOrder()">Place Order</button>
+      <button class="btn my_btn" onclick="placeOrder()">Place Order</button>
     </div>
 
   </div>
