@@ -10,9 +10,13 @@ class OrderProgress(WebsocketConsumer):
         self.user = self.scope['user']
         self.room_name = self.scope['url_route']['kwargs']['user_id']
         self.room_group_name = 'user_%s' % self.room_name
+        
+        print(self.room_group_name)
         print(self.room_group_name)
         print("consumer connected")
+        print(self.channel_layer)
         
+        # Join room group
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
